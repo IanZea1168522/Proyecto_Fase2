@@ -268,6 +268,7 @@ public class Register extends javax.swing.JFrame {
                 textBoxCorreo.setText("");
                 textBoxTelefono.setText("");
                 textBoxRutaFoto.setText("");
+                JOptionPane.showMessageDialog(null, "Usuario creado con éxito, puede ingresar al sitio", "Listo", WIDTH);
                 new Inicio().setVisible(true);
                 setVisible(false);
             }

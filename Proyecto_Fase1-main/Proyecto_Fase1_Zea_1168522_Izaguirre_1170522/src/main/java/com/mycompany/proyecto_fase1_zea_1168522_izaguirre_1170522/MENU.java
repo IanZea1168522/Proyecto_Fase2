@@ -4,6 +4,7 @@
  */
 package com.mycompany.proyecto_fase1_zea_1168522_izaguirre_1170522;
 
+import com.nulabinc.zxcvbn.Zxcvbn;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,19 +15,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -706,28 +703,50 @@ public class MENU extends javax.swing.JFrame {
     }//GEN-LAST:event_btncerrarsesionActionPerformed
 
     private void botonListoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListoActionPerformed
-        
+    try 
+        {
+            Zxcvbn zxcvbn = new Zxcvbn();
+            //se obtnenen las variables
+            String usuario = textBoxUsuario.getText();
+            String nombre = textBoxNombre.getText();
+            String apellido = textBoxApellido.getText();
+            String contraseña = DigestUtils.sha256Hex(textBoxContraseña.getText());
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate fecha = LocalDate.parse(textBoxFecha.getText(), formato);
+            String eMail = textBoxCorreo.getText();
+            int telefono = Integer.parseInt(textBoxTelefono.getText().trim());
+            String ruta = textBoxRutaFoto.getText();
+            String strError = "";
+            //se busca la seguridad de la contraseña
+            String rutaPuntuacion = "C:\\MEIA\\puntuacion.txt";
+            String rutaResultado = "C:\\MEIA\\resultado.txt";
+            List<String> listaPunts = op.Obtener(rutaPuntuacion, strError);
+            List<String> listaRes = op.Obtener(rutaResultado, strError);
+            if (op.listasValidas(listaPunts, listaRes)) 
+            {
+                int puntuacion = op.punt(contraseña, listaPunts);
+                String resul = op.obtenerEstadoContraseña(puntuacion, listaRes);
+                labelEstado.setText("Estado: " + resul);
+                op.ingresar(strError, usuario, nombre, apellido, contraseña, fecha, telefono, eMail, ruta, resul, usuarioGlo.split("\\|")[0], textBoxContraseña.getText());
+                //se reinician los valores
+                textBoxUsuario.setText("");
+                textBoxNombre.setText("");
+                textBoxApellido.setText("");
+                textBoxContraseña.setText("");
+                textBoxFecha.setText("");
+                textBoxCorreo.setText("");
+                textBoxTelefono.setText("");
+                textBoxRutaFoto.setText("");
+
+            }
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null, "Datos ingresados erróneos, vuelve a intentarlo", "Error", WIDTH);
+        }
     }//GEN-LAST:event_botonListoActionPerformed
 
     private void botonFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFotoActionPerformed
-
-    }//GEN-LAST:event_botonFotoActionPerformed
-
-    private void btnborrarusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnborrarusuarioActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnborrarusuarioActionPerformed
-
-    private void btnhaceradminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhaceradminActionPerformed
-
-    }//GEN-LAST:event_btnhaceradminActionPerformed
-
-    private void botonCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonCambioActionPerformed
-
-    private void botonFoto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFoto1ActionPerformed
-        // TODO add your handling code here:
         String ruta;
         ruta = op.obtenerNuevaRutaImg(this);
         if(ruta == null)
@@ -738,10 +757,143 @@ public class MENU extends javax.swing.JFrame {
         {
             textBoxRutaFoto.setText(op.duplicarImagen(ruta));
         }
+    }//GEN-LAST:event_botonFotoActionPerformed
+
+    private void btnborrarusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnborrarusuarioActionPerformed
+        // TODO add your handling code here:
+        String buscado = txtborrarusuario.getText();
+        String strError = "";
+        String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+        String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+        List<String> listaIn = op.Obtener(rutaIn, strError);
+        List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+        String CambioIn = op.buscarIn(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), buscado);
+        String CambioBlo = op.buscar(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), buscado, strError);
+        if(CambioIn == null || CambioBlo == null)
+        {
+            JOptionPane.showMessageDialog(null, "El usuario no se encontró, vuelva a intentarlo", "Error", WIDTH);
+        }
+        else
+        {
+            op.cambiarStatus(CambioIn, CambioBlo, usuarioGlo.split("\\|")[0], strError, rutaIn, rutaDesIn, listaIn, listaDesIn);
+            JOptionPane.showMessageDialog(null, "El usuario " + buscado + " esta desactivado", "Listo", WIDTH);
+            txtborrarusuario.setText("");
+        }
+    }//GEN-LAST:event_btnborrarusuarioActionPerformed
+
+    private void btnhaceradminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhaceradminActionPerformed
+        String buscado = txtadminusuario.getText();
+        String strError = "";
+        String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+        String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+        List<String> listaIn = op.Obtener(rutaIn, strError);
+        List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+        if(buscado.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "LLene todos los campos por favor",  "Error", WIDTH);
+        }
+        else
+        {
+            String CambioIn = op.buscarIn(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), buscado);
+            String CambioBlo = op.buscar(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), buscado, strError);
+            if(CambioIn == null || CambioBlo == null || buscado.equals(usuarioGlo.split("\\|")[0]) || CambioBlo.split("\\|")[9].equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "No se encontró el usuario, vuelva a intentarlo",  "Error", WIDTH);
+            }
+            else
+            {
+                String[] partes = CambioBlo.split("\\|");
+                if(partes[4].equals("1"))
+                {
+                    JOptionPane.showMessageDialog(null, "Este usuario ya es administrador, intente con uno diferente",  "Error", WIDTH);
+                }
+                else
+                {
+                    partes[4] = "1";
+                    op.cambiarDatos(String.join("|", partes), CambioIn, usuarioGlo.split("\\|")[0], strError, rutaIn, rutaDesIn, listaIn, listaDesIn);
+                    JOptionPane.showMessageDialog(null, "Ahora el usuario " + buscado + " ya es admin también",  "Listo", WIDTH);
+                    txtadminusuario.setText("");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnhaceradminActionPerformed
+
+    private void botonCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambioActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            String usuario = textBoxCambioUsuario.getText();
+            if(textBoxCambioUsuario.getText().isEmpty())
+            {
+                usuario = usuarioGlo.split("\\|")[0];
+            }
+            String nuevoCorreo = textBoxCambioCorreo.getText();
+            int nuevoTelefono = Integer.parseInt(textBoxCambioTelefono.getText());
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate nuevaFecha = LocalDate.parse(textBoxCambioFecha.getText(), formato);
+            String nuevaFoto = textBoxCambioRutaFoto.getText();
+            if(nuevoCorreo.isEmpty() || nuevaFoto.isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Llene todos los campos por favor", "Error", WIDTH);
+            }
+            else
+            {
+                if(nuevoCorreo.length() > 40 || nuevaFoto.length() > 200)
+                {
+                    JOptionPane.showMessageDialog(null, "Datos Ingresados Erróneos", "Error", WIDTH);
+                }
+                else
+                {
+                    String strError = "";
+                    String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+                    String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+                    List<String> listaIn = op.Obtener(rutaIn, strError);
+                    List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+                    String CambioIn = op.buscarIn(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), usuario.split("\\|")[0]);
+                    String CambioBlo = op.buscar(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), usuario.split("\\|")[0], strError);
+                    String[] partes = CambioBlo.split("\\|"); 
+                    partes[6] = nuevoCorreo;
+                    partes[7] = String.valueOf(nuevoTelefono);
+                    partes[8] = nuevaFoto;
+                    partes[5] = String.valueOf(nuevaFecha);
+                    op.cambiarDatos(String.join("|", partes), CambioIn, usuarioGlo.split("\\|")[0], strError, rutaIn, rutaDesIn, listaIn, listaDesIn);
+                    textBoxCambioUsuario.setText("");
+                    textBoxCambioCorreo.setText("");
+                    textBoxCambioTelefono.setText("");
+                    textBoxCambioFecha.setText("");
+                    textBoxCambioRutaFoto.setText("");
+                    if(partes[0].equals(usuarioGlo.split("\\|")[0]))
+                    {
+                        new MENU(String.join("|",partes)).setVisible(true);
+                        setVisible(false);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Datos ingresados erróneos, vuelve a intentarlo", "Error", WIDTH);
+        }
+    }//GEN-LAST:event_botonCambioActionPerformed
+
+    private void botonFoto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFoto1ActionPerformed
+        // TODO add your handling code here:
+        String ruta;
+        ruta = op.obtenerNuevaRutaImg(this);
+        if(ruta == null)
+        {
+            textBoxCambioRutaFoto.setText("");
+        }
+        else
+        {
+            textBoxCambioRutaFoto.setText(op.duplicarImagen(ruta));
+        }
     }//GEN-LAST:event_botonFoto1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        op.condensar();
+        JOptionPane.showMessageDialog(null, "Datos condensados con éxito", "Listo", WIDTH);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static String cifrar(String key, String value) {

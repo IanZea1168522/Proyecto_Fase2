@@ -332,6 +332,7 @@ public class Perfil extends javax.swing.JFrame {
         String CambioIn = op.buscarIn(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), usuarioGlo.split("\\|")[0]);
         String CambioBlo = op.buscar(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), usuarioGlo.split("\\|")[0], strError);
         op.cambiarStatus(CambioIn, CambioBlo, usuarioGlo.split("\\|")[0], strError, rutaIn, rutaDesIn, listaIn, listaDesIn);
+        JOptionPane.showMessageDialog(null, "Gracias por habernos preferido, vuelve pronto", "Hasta luego", WIDTH);
         new Inicio().setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed

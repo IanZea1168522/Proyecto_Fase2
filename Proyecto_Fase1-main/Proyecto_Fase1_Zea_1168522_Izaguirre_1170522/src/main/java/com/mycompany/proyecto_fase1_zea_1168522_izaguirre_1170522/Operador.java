@@ -745,7 +745,6 @@ public class Operador
         escribirLista(listaDesIn, rutaDesIn, strError);
         escribirLista(listaBlo, rutaBlo, strError);
         escribirLista(listaDesBlo, rutaDesBlo, strError);
-        JOptionPane.showMessageDialog(null, "Gracias por habernos preferido, vuelve pronto", "Hasta luego", WIDTH);
     }
     public void cambiarDatos(String reemplazo, String cambioIn, String usuario, String strError, String rutaIn, String rutaDesIn, List<String> listaIn, List<String> listaDesIn)
     {
@@ -759,12 +758,39 @@ public class Operador
         listaBlo.set((Integer.parseInt(partesIn[1].split("\\.")[1])-1), reemplazo);
         listaDesBlo.set(3, String.valueOf(fechaHoraActual.format(forma)));
         listaDesBlo.set(4, usuario);
-        listaDesBlo.set(5,String.valueOf(Integer.parseInt(listaDesBlo.get(5)) - 1));
-        listaDesBlo.set(6,String.valueOf(Integer.parseInt(listaDesBlo.get(6)) + 1));
         borrarContenidoArchivo(rutaBlo);
         borrarContenidoArchivo(rutaDesBlo);
         escribirLista(listaBlo, rutaBlo, strError);
         escribirLista(listaDesBlo, rutaDesBlo, strError);
         JOptionPane.showMessageDialog(null, "Cambios realizados con éxito", "Listo", WIDTH);
+    }
+    public void condensar()
+    {
+        String strError= "";
+        List<String> listaTodo = new ArrayList<>();
+        List<List<String>> descriptores = new ArrayList<>();
+        String rutaCar = "C:\\MEIA\\bloques";
+        int indice = 1;
+        String nombreArch = "Usuario_Bloque_" + String.valueOf(indice) + ".txt";
+        boolean existe = archivoExisteEnCarpeta(rutaCar, nombreArch);
+        while(existe)
+        {
+            List<String> listaBloque = Obtener(("C:\\MEIA\\bloques\\Usuario_Bloque_" + String.valueOf(indice) + ".txt"), strError);
+            for (int i = 0; i < listaBloque.size(); i++) 
+            {
+                if(listaBloque.get(i).split("\\|")[9].equals("1"))
+                {
+                    listaTodo.add(listaBloque.get(i));
+                }
+            }
+            descriptores.add(Obtener(("C:\\MEIA\\bloques\\Desc_Usuario_Bloque_" + String.valueOf(indice) + ".txt"),strError));
+            indice = indice + 1;
+            nombreArch = "Usuario_Bloque_" + String.valueOf(indice) + ".txt";
+            existe = archivoExisteEnCarpeta(rutaCar, nombreArch);
+        }
+        String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+        String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+        List<String> descAntiguo = Obtener(rutaDesIn,strError);
+        //borrarContenidoArchivo(rutaIn);
     }
 }
