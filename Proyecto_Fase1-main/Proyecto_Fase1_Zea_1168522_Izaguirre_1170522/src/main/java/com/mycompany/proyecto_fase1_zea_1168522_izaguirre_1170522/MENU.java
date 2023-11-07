@@ -892,7 +892,7 @@ public class MENU extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        op.condensar();
+        op.condensar(usuarioGlo.split("\\|")[0]);
         JOptionPane.showMessageDialog(null, "Datos condensados con éxito", "Listo", WIDTH);
     }//GEN-LAST:event_jButton2ActionPerformed
 

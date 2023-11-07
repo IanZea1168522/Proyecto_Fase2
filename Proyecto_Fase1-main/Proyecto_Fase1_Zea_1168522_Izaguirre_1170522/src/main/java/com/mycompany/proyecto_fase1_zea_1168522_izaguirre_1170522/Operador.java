@@ -764,7 +764,7 @@ public class Operador
         escribirLista(listaDesBlo, rutaDesBlo, strError);
         JOptionPane.showMessageDialog(null, "Cambios realizados con éxito", "Listo", WIDTH);
     }
-    public void condensar()
+    public void condensar(String usuario)
     {
         String strError= "";
         List<String> listaTodo = new ArrayList<>();
@@ -791,6 +791,58 @@ public class Operador
         String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
         String rutaIn = "C:\\MEIA\\indices_usuario.txt";
         List<String> descAntiguo = Obtener(rutaDesIn,strError);
-        //borrarContenidoArchivo(rutaIn);
+        borrarContenidoArchivo(rutaIn);
+        borrarArchivosEnCarpeta(rutaCar);
+        String rutaPuntuacion = "C:\\MEIA\\puntuacion.txt";
+        String rutaResultado = "C:\\MEIA\\resultado.txt";
+        List<String> listaPunts = Obtener(rutaPuntuacion, strError);
+        List<String> listaRes = Obtener(rutaResultado, strError);
+        int puntuacion = punt("123456D", listaPunts);
+        String resul = obtenerEstadoContraseña(puntuacion, listaRes);
+        for (int i = 0; i < listaTodo.size(); i++) 
+        {
+            String[] partes = listaTodo.get(i).split("\\|");
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fecha = LocalDate.parse(partes[5], formato);
+            ingresar(strError, partes[0], partes[1], partes[2], partes[3], fecha, Integer.parseInt(partes[7]), partes[6], partes[8], resul, usuario, "123456D");
+        }
+        List<String> descNuevo = Obtener(rutaDesIn,strError);
+        descNuevo.set(1, descAntiguo.get(1));
+        descNuevo.set(2, descAntiguo.get(2));
+        borrarContenidoArchivo(rutaDesIn);
+        escribirLista(descNuevo, rutaDesIn, strError);
+        indice = 1;
+        nombreArch = "Usuario_Bloque_" + String.valueOf(indice) + ".txt";
+        existe = archivoExisteEnCarpeta(rutaCar, nombreArch);
+        while(existe)
+        {
+            List<String> listaDesBloque = Obtener(("C:\\MEIA\\bloques\\Desc_Usuario_Bloque_" + String.valueOf(indice) + ".txt"), strError);
+            listaDesBloque.set(1, descriptores.get(indice-1).get(1));
+            listaDesBloque.set(1, descriptores.get(indice-1).get(1));
+            borrarContenidoArchivo(("C:\\MEIA\\bloques\\Desc_Usuario_Bloque_" + String.valueOf(indice) + ".txt"));
+            escribirLista(listaDesBloque, ("C:\\MEIA\\bloques\\Desc_Usuario_Bloque_" + String.valueOf(indice) + ".txt"), strError);
+            indice = indice + 1;
+            nombreArch = "Usuario_Bloque_" + String.valueOf(indice) + ".txt";
+            existe = archivoExisteEnCarpeta(rutaCar, nombreArch);
+        }
+    }
+    public static void borrarArchivosEnCarpeta(String rutaCarpeta) {
+        File carpeta = new File(rutaCarpeta);
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles();
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    if (archivo.isFile()) {
+                        if (archivo.delete()) {
+                            System.out.println("Archivo eliminado: " + archivo.getName());
+                        } else {
+                            System.err.println("No se pudo eliminar el archivo: " + archivo.getName());
+                        }
+                    }
+                }
+            }
+        } else {
+            System.err.println("La carpeta no existe o no es un directorio válido: " + rutaCarpeta);
+        }
     }
 }
