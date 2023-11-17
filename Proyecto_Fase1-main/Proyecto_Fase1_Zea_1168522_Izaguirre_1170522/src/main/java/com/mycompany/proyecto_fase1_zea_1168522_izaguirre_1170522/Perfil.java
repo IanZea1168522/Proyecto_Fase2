@@ -79,6 +79,12 @@ public class Perfil extends javax.swing.JFrame {
         textBoxCambioRutaFoto = new javax.swing.JTextPane();
         jLabel8 = new javax.swing.JLabel();
         botonCambio = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        labelAmigues = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        botonCambio1 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textBoxAmigo = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -298,6 +304,58 @@ public class Perfil extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Cambio", jPanel2);
 
+        jLabel6.setText("Amigos:");
+
+        botonCambio1.setBackground(new java.awt.Color(153, 204, 255));
+        botonCambio1.setForeground(new java.awt.Color(0, 0, 0));
+        botonCambio1.setText("Agregar");
+        botonCambio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCambio1ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane4.setViewportView(textBoxAmigo);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(174, 174, 174))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(160, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(155, 155, 155))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botonCambio1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane2.addTab("Amigos", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -395,6 +453,25 @@ public class Perfil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonCambioActionPerformed
 
+    private void botonCambio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambio1ActionPerformed
+        // TODO add your handling code here:
+        String strError = "";
+        String amigo = textBoxAmigo.getText();
+        String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+        String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+        List<String> listaIn = op.Obtener(rutaIn, strError);
+        List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+        boolean existe = op.comprobarSoli(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), amigo);
+        if(existe)
+        {
+            op.mandarSolicitud((usuarioGlo.split("\\|")[0] + "|" + amigo), usuarioGlo.split("\\|")[0]);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "El usuario no existe, vuelva a intentarlo", "Error", WIDTH);
+        }
+    }//GEN-LAST:event_botonCambio1ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -434,6 +511,7 @@ public class Perfil extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelFoto;
     private javax.swing.JButton botonCambio;
+    private javax.swing.JButton botonCambio1;
     private javax.swing.JButton botonFoto;
     private javax.swing.JButton btncerrarsesion;
     private javax.swing.JButton jButton1;
@@ -442,20 +520,25 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JLabel labelAmigues;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelCorreo;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelNum;
     private javax.swing.JLabel labelUsuario;
+    private javax.swing.JTextPane textBoxAmigo;
     private javax.swing.JTextPane textBoxCambioCorreo;
     private javax.swing.JTextPane textBoxCambioFecha;
     private javax.swing.JTextPane textBoxCambioRutaFoto;

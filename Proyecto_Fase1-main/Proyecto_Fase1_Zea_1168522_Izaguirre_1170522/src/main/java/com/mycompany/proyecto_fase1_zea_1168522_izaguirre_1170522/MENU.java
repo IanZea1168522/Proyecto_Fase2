@@ -138,6 +138,12 @@ public class MENU extends javax.swing.JFrame {
         jScrollPane16 = new javax.swing.JScrollPane();
         textBoxCambioCorreo = new javax.swing.JTextPane();
         jLabel7 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        labelAmigues = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        botonCambio1 = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        textBoxAmigo = new javax.swing.JTextPane();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel1.setText("PAGINA PRINCIPAL:");
@@ -678,6 +684,57 @@ public class MENU extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Cambiar datos", jPanel6);
 
+        jLabel22.setText("Amigos:");
+
+        botonCambio1.setBackground(new java.awt.Color(153, 204, 255));
+        botonCambio1.setForeground(new java.awt.Color(0, 0, 0));
+        botonCambio1.setText("Agregar");
+        botonCambio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCambio1ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane11.setViewportView(textBoxAmigo);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 518, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(214, 214, 214)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botonCambio1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Amigos", jPanel7);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -737,6 +794,7 @@ public class MENU extends javax.swing.JFrame {
                 textBoxCorreo.setText("");
                 textBoxTelefono.setText("");
                 textBoxRutaFoto.setText("");
+                JOptionPane.showMessageDialog(null, "Operación terminada", "Listo", WIDTH);
 
             }
         } 
@@ -895,6 +953,10 @@ public class MENU extends javax.swing.JFrame {
         op.condensar(usuarioGlo.split("\\|")[0]);
         JOptionPane.showMessageDialog(null, "Datos condensados con éxito", "Listo", WIDTH);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void botonCambio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonCambio1ActionPerformed
 
     public static String cifrar(String key, String value) {
         try {
@@ -1277,6 +1339,7 @@ public class MENU extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelFoto;
     private javax.swing.JButton botonCambio;
+    private javax.swing.JButton botonCambio1;
     private javax.swing.JButton botonFoto;
     private javax.swing.JButton botonFoto1;
     private javax.swing.JButton botonListo;
@@ -1298,6 +1361,7 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1311,8 +1375,10 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
@@ -1327,6 +1393,7 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel labelAmigues;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelCorreo;
     private javax.swing.JLabel labelEstado;
@@ -1334,6 +1401,7 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelNum;
     private javax.swing.JLabel labelUsuario;
+    private javax.swing.JTextPane textBoxAmigo;
     private javax.swing.JTextPane textBoxApellido;
     private javax.swing.JTextPane textBoxCambioCorreo;
     private javax.swing.JTextPane textBoxCambioFecha;
