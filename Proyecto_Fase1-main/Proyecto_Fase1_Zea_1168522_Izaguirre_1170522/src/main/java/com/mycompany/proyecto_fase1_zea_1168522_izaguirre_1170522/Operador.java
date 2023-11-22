@@ -860,6 +860,9 @@ public class Operador
         partes[4] = temp;
         if(!yaHay(listaAr, dato) && !yaHay(listaAr, String.join("|", partes)))
         {
+            borrarContenidoArchivo(rutaAr);
+            compararCadenas(listaAr, dato);
+            escribirLista(listaAr, rutaAr, strError);
             if(listaDesAr.get(1).equals("-"))
             {
                 listaDesAr.set(1, String.valueOf(fechaHoraActual.format(forma)));
@@ -899,11 +902,76 @@ public class Operador
         }
         for (int i = 0; i < lista.size(); i++) 
         {
-            if(lista.get(i).split("\\|")[3].equals(dato.split("\\|")[3]))
+            if(lista.get(i).split("\\|")[3].equals(dato.split("\\|")[3]) && lista.get(i).split("\\|")[4].equals(dato.split("\\|")[4]))
             {
                 return true;
             }
         }
         return false;
+    }
+    public static void compararCadenas(List<String> listaCadenas, String cadenaComparar) 
+    {
+        if(listaCadenas.isEmpty())
+        {
+            listaCadenas.add(cadenaComparar);
+        }
+        else
+        {
+            int indice = 0;
+            while(indice != -1)
+            {
+                if(listaCadenas.get(indice).split("\\|")[3].toLowerCase().compareTo(cadenaComparar.split("\\|")[3].toLowerCase()) > 0)
+                {
+                    if(listaCadenas.get(indice).split("\\|")[1].equals("-1"))
+                    {
+                        String[] partes = listaCadenas.get(indice).split("\\|");
+                        partes[1] = cadenaComparar.split("\\|")[0];
+                        listaCadenas.set(indice, String.join("|", partes));
+                        listaCadenas.add(cadenaComparar);
+                        break;
+                    }
+                    indice = Integer.parseInt(listaCadenas.get(indice).split("\\|")[1]) - 1;
+                }
+                else if(listaCadenas.get(indice).split("\\|")[3].toLowerCase().compareTo(cadenaComparar.split("\\|")[3].toLowerCase()) < 0)
+                {
+                    if(listaCadenas.get(indice).split("\\|")[2].equals("-1"))
+                    {
+                        String[] partes = listaCadenas.get(indice).split("\\|");
+                        partes[2] = cadenaComparar.split("\\|")[0];
+                        listaCadenas.set(indice, String.join("|", partes));
+                        listaCadenas.add(cadenaComparar);
+                        break;
+                    }
+                    indice = Integer.parseInt(listaCadenas.get(indice).split("\\|")[2]) - 1;
+                }
+                if(listaCadenas.get(indice).split("\\|")[3].toLowerCase().compareTo(cadenaComparar.split("\\|")[3].toLowerCase()) == 0)
+                {
+                    if(listaCadenas.get(indice).split("\\|")[4].toLowerCase().compareTo(cadenaComparar.split("\\|")[4].toLowerCase()) > 0)
+                    {
+                        if(listaCadenas.get(indice).split("\\|")[1].equals("-1"))
+                        {
+                            String[] partes = listaCadenas.get(indice).split("\\|");
+                            partes[1] = cadenaComparar.split("\\|")[0];
+                            listaCadenas.set(indice, String.join("|", partes));
+                            listaCadenas.add(cadenaComparar);
+                            break;
+                        }
+                        indice = Integer.parseInt(listaCadenas.get(indice).split("\\|")[1]) - 1;
+                    }
+                    else if(listaCadenas.get(indice).split("\\|")[4].toLowerCase().compareTo(cadenaComparar.split("\\|")[4].toLowerCase()) < 0)
+                    {
+                        if(listaCadenas.get(indice).split("\\|")[2].equals("-1"))
+                        {
+                            String[] partes = listaCadenas.get(indice).split("\\|");
+                            partes[2] = cadenaComparar.split("\\|")[0];
+                            listaCadenas.set(indice, String.join("|", partes));
+                            listaCadenas.add(cadenaComparar);
+                            break;
+                        }
+                        indice = Integer.parseInt(listaCadenas.get(indice).split("\\|")[2]) - 1;
+                    }
+                }
+            }
+        }
     }
 }

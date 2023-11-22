@@ -463,7 +463,7 @@ public class Perfil extends javax.swing.JFrame {
         List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
         String rutaAr = "C:\\MEIA\\Solicitudes.txt";
         List<String> listaAr = op.Obtener(rutaAr, strError);
-        String cantidad = String.valueOf(listaAr.size());
+        String cantidad = String.valueOf(listaAr.size() + 1);
         boolean existe = op.comprobarSoli(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), amigo);
         if(existe)
         {
