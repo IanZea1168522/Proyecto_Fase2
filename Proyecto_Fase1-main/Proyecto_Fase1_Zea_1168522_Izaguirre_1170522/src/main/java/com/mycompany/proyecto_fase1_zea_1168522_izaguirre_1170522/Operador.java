@@ -32,8 +32,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 public class Operador 
 {
-    //atirbuto arbol
-    ABB arbol = new ABB();
     // Verifica si alguno de los campos contiene el carácter '|'
     private boolean tieneCaracterInvalido(String... campos) 
     {
@@ -849,7 +847,6 @@ public class Operador
     }
     public void mandarSolicitud(String dato, String edit)
     {
-        arbol.eliminarArbol();
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         DateTimeFormatter forma = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String strError = "";
@@ -857,21 +854,12 @@ public class Operador
         String rutaDesAr = "C:\\MEIA\\Desc_Solicitudes.txt";
         List<String> listaAr = Obtener(rutaAr, strError);
         List<String> listaDesAr = Obtener(rutaDesAr, strError);
-        for (String elemento : listaAr) 
+        String[] partes = dato.split("\\|");
+        String temp = partes[3];
+        partes[3] = partes[4];
+        partes[4] = temp;
+        if(!yaHay(listaAr, dato) && !yaHay(listaAr, String.join("|", partes)))
         {
-            String[] partes = elemento.split("\\|");
-            String todo = partes[0] + "|" + partes[3] + "|" + partes[4];
-            arbol.insertar(todo);
-        }
-        int cantidad = arbol.contarNodos() + 1;
-        String nuevoDato = String.valueOf(cantidad) + "|" + dato;
-        if(!arbol.existeDato(nuevoDato))
-        {
-            arbol.insertar(nuevoDato);
-            List<String> ordenado = arbol.listaOrdenada();
-            ordenarListaNum(ordenado);
-            borrarContenidoArchivo(rutaAr);
-            escribirLista(ordenado, rutaAr, strError);
             if(listaDesAr.get(1).equals("-"))
             {
                 listaDesAr.set(1, String.valueOf(fechaHoraActual.format(forma)));
@@ -890,19 +878,6 @@ public class Operador
             JOptionPane.showMessageDialog(null, "El usuario ya hay una solicitud pendiente entre ustedes, espera a que corresponda el respectivo usuario", "Error", WIDTH);
         }
     }
-    public void ordenarListaNum(List<String> lista) {
-        Collections.sort(lista, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                // Obtener el número en la posición 0 de cada cadena
-                int numero1 = Integer.parseInt(s1.split("\\|")[0]);
-                int numero2 = Integer.parseInt(s2.split("\\|")[0]);
-
-                // Comparar los números
-                return Integer.compare(numero1, numero2);
-            }
-        });
-    }
     public boolean comprobarSoli(List<String> lista, int inicio, String buscado)
     {
         int posicion = inicio;
@@ -913,6 +888,21 @@ public class Operador
                 return true;
             }
             posicion = Integer.parseInt(lista.get(posicion).split("\\|")[3]) - 1;
+        }
+        return false;
+    }
+    public boolean yaHay(List<String> lista, String dato)
+    {
+        if(lista.isEmpty())
+        {
+            return false;
+        }
+        for (int i = 0; i < lista.size(); i++) 
+        {
+            if(lista.get(i).split("\\|")[3].equals(dato.split("\\|")[3]))
+            {
+                return true;
+            }
         }
         return false;
     }

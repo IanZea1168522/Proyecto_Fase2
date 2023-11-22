@@ -461,10 +461,13 @@ public class Perfil extends javax.swing.JFrame {
         String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
         List<String> listaIn = op.Obtener(rutaIn, strError);
         List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+        String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+        List<String> listaAr = op.Obtener(rutaAr, strError);
+        String cantidad = String.valueOf(listaAr.size());
         boolean existe = op.comprobarSoli(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), amigo);
         if(existe)
         {
-            op.mandarSolicitud((usuarioGlo.split("\\|")[0] + "|" + amigo), usuarioGlo.split("\\|")[0]);
+            op.mandarSolicitud((cantidad + "|-1|-1|" +usuarioGlo.split("\\|")[0] + "|" + amigo + "|0|1"), usuarioGlo.split("\\|")[0]);
         }
         else
         {
