@@ -40,6 +40,12 @@ public class Perfil extends javax.swing.JFrame {
         op.SetImageLabel(LabelFoto, usuario.split("\\|")[8], this);
         //se guarda el usuario
         usuarioGlo = usuario;
+        String amix = op.encontrarSoli(usuario.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuario.split("\\|")[0]));
     }
 
     /**
@@ -85,6 +91,9 @@ public class Perfil extends javax.swing.JFrame {
         botonCambio1 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         textBoxAmigo = new javax.swing.JTextPane();
+        LabelSoli = new javax.swing.JLabel();
+        botonAgregar = new javax.swing.JButton();
+        botonAgregar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -317,40 +326,72 @@ public class Perfil extends javax.swing.JFrame {
 
         jScrollPane4.setViewportView(textBoxAmigo);
 
+        LabelSoli.setText("Sin solicitudes pendientes");
+
+        botonAgregar.setBackground(new java.awt.Color(153, 204, 255));
+        botonAgregar.setForeground(new java.awt.Color(0, 0, 0));
+        botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarActionPerformed(evt);
+            }
+        });
+
+        botonAgregar1.setBackground(new java.awt.Color(153, 204, 255));
+        botonAgregar1.setForeground(new java.awt.Color(0, 0, 0));
+        botonAgregar1.setText("Rechazar");
+        botonAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(174, 174, 174))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(160, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(155, 155, 155))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(174, 174, 174))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(LabelSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonAgregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonCambio1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelSoli)
+                    .addComponent(botonAgregar)
+                    .addComponent(botonAgregar1))
+                .addGap(9, 9, 9)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -467,13 +508,50 @@ public class Perfil extends javax.swing.JFrame {
         boolean existe = op.comprobarSoli(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), amigo);
         if(existe)
         {
-            op.mandarSolicitud((cantidad + "|-1|-1|" +usuarioGlo.split("\\|")[0] + "|" + amigo + "|0|1"), usuarioGlo.split("\\|")[0]);
+            if(op.mandarSolicitud((cantidad + "|-1|-1|" +usuarioGlo.split("\\|")[0] + "|" + amigo + "|0|1"), usuarioGlo.split("\\|")[0]))
+            {
+                JOptionPane.showMessageDialog(null, "Solicitud enviada con éxito", "Listo", WIDTH);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Entre ustedes ya hay una solicitud pendiente", "Error", WIDTH);
+            }
         }
         else
         {
             JOptionPane.showMessageDialog(null, "El usuario no existe, vuelva a intentarlo", "Error", WIDTH);
         }
     }//GEN-LAST:event_botonCambio1ActionPerformed
+
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+        // TODO add your handling code here:
+        op.aceptRech(usuarioGlo.split("\\|")[0], "1");
+        String amix = op.encontrarSoli(usuarioGlo.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        else
+        {
+            LabelSoli.setText("Sin solicitudes pendientes");
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuarioGlo.split("\\|")[0]));
+    }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void botonAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregar1ActionPerformed
+        // TODO add your handling code here:
+        op.aceptRech(usuarioGlo.split("\\|")[0], "0");
+        String amix = op.encontrarSoli(usuarioGlo.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        else
+        {
+            LabelSoli.setText("Sin solicitudes pendientes");
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuarioGlo.split("\\|")[0]));
+    }//GEN-LAST:event_botonAgregar1ActionPerformed
 
     
     /**
@@ -513,6 +591,9 @@ public class Perfil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelFoto;
+    private javax.swing.JLabel LabelSoli;
+    private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonAgregar1;
     private javax.swing.JButton botonCambio;
     private javax.swing.JButton botonCambio1;
     private javax.swing.JButton botonFoto;

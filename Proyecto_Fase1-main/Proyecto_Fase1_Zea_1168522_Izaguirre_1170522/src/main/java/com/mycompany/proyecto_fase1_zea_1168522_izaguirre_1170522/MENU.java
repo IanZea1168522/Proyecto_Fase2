@@ -53,6 +53,12 @@ public class MENU extends javax.swing.JFrame {
         op.SetImageLabel(LabelFoto, usuario.split("\\|")[8], this);
         //se guarda el usuario
         usuarioGlo = usuario;
+        String amix = op.encontrarSoli(usuario.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuario.split("\\|")[0]));
     }
     
     /**
@@ -140,10 +146,14 @@ public class MENU extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         labelAmigues = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        LabelSoli = new javax.swing.JLabel();
+        botonAgregar = new javax.swing.JButton();
+        botonAgregar1 = new javax.swing.JButton();
         botonCambio1 = new javax.swing.JButton();
-        jScrollPane11 = new javax.swing.JScrollPane();
+        jScrollPane17 = new javax.swing.JScrollPane();
         textBoxAmigo = new javax.swing.JTextPane();
+        Condensar = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel1.setText("PAGINA PRINCIPAL:");
@@ -684,7 +694,27 @@ public class MENU extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Cambiar datos", jPanel6);
 
-        jLabel22.setText("Amigos:");
+        jLabel23.setText("Amigos:");
+
+        LabelSoli.setText("Sin solicitudes pendientes");
+
+        botonAgregar.setBackground(new java.awt.Color(153, 204, 255));
+        botonAgregar.setForeground(new java.awt.Color(0, 0, 0));
+        botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarActionPerformed(evt);
+            }
+        });
+
+        botonAgregar1.setBackground(new java.awt.Color(153, 204, 255));
+        botonAgregar1.setForeground(new java.awt.Color(0, 0, 0));
+        botonAgregar1.setText("Rechazar");
+        botonAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregar1ActionPerformed(evt);
+            }
+        });
 
         botonCambio1.setBackground(new java.awt.Color(153, 204, 255));
         botonCambio1.setForeground(new java.awt.Color(0, 0, 0));
@@ -695,7 +725,16 @@ public class MENU extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane11.setViewportView(textBoxAmigo);
+        jScrollPane17.setViewportView(textBoxAmigo);
+
+        Condensar.setBackground(new java.awt.Color(153, 204, 255));
+        Condensar.setForeground(new java.awt.Color(0, 0, 0));
+        Condensar.setText("Reorganizar");
+        Condensar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CondensarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -703,34 +742,53 @@ public class MENU extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 518, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(LabelSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonAgregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 91, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(218, 218, 218)
+                                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(236, 236, 236)
+                                .addComponent(botonCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(labelAmigues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Condensar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(238, 238, 238))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(botonCambio1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelSoli)
+                    .addComponent(botonAgregar)
+                    .addComponent(botonAgregar1))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel23)
+                .addGap(18, 18, 18)
+                .addComponent(labelAmigues, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Condensar)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Amigos", jPanel7);
@@ -954,9 +1012,69 @@ public class MENU extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Datos condensados con éxito", "Listo", WIDTH);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+        // TODO add your handling code here:
+        op.aceptRech(usuarioGlo.split("\\|")[0], "1");
+        String amix = op.encontrarSoli(usuarioGlo.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        else
+        {
+            LabelSoli.setText("Sin solicitudes pendientes");
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuarioGlo.split("\\|")[0]));
+    }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void botonAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregar1ActionPerformed
+        // TODO add your handling code here:
+        op.aceptRech(usuarioGlo.split("\\|")[0], "0");
+        String amix = op.encontrarSoli(usuarioGlo.split("\\|")[0]);
+        if(amix != null)
+        {
+            LabelSoli.setText("Solicitud de: " + amix.split("\\|")[3]);
+        }
+        else
+        {
+            LabelSoli.setText("Sin solicitudes pendientes");
+        }
+        labelAmigues.setText(op.listaDeAmigos(usuarioGlo.split("\\|")[0]));
+    }//GEN-LAST:event_botonAgregar1ActionPerformed
+
     private void botonCambio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambio1ActionPerformed
         // TODO add your handling code here:
+        String strError = "";
+        String amigo = textBoxAmigo.getText();
+        String rutaIn = "C:\\MEIA\\indices_usuario.txt";
+        String rutaDesIn = "C:\\MEIA\\Desc_indices_usuario.txt";
+        List<String> listaIn = op.Obtener(rutaIn, strError);
+        List<String> listaDesIn = op.Obtener(rutaDesIn, strError);
+        String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+        List<String> listaAr = op.Obtener(rutaAr, strError);
+        String cantidad = String.valueOf(listaAr.size() + 1);
+        boolean existe = op.comprobarSoli(listaIn, (Integer.parseInt(listaDesIn.get(9))-1), amigo);
+        if(existe)
+        {
+            if(op.mandarSolicitud((cantidad + "|-1|-1|" +usuarioGlo.split("\\|")[0] + "|" + amigo + "|0|1"), usuarioGlo.split("\\|")[0]))
+            {
+               JOptionPane.showMessageDialog(null, "Solicitud enviada con éxito", "Listo", WIDTH);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Entre ustedes ya hay una solicitud pendiente", "Error", WIDTH);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "El usuario no existe, vuelva a intentarlo", "Error", WIDTH);
+        }
     }//GEN-LAST:event_botonCambio1ActionPerformed
+
+    private void CondensarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CondensarActionPerformed
+        // TODO add your handling code here:
+        op.reorganizar(usuarioGlo.split("\\|")[0]);
+    }//GEN-LAST:event_CondensarActionPerformed
 
     public static String cifrar(String key, String value) {
         try {
@@ -1337,7 +1455,11 @@ public class MENU extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Condensar;
     private javax.swing.JLabel LabelFoto;
+    private javax.swing.JLabel LabelSoli;
+    private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonAgregar1;
     private javax.swing.JButton botonCambio;
     private javax.swing.JButton botonCambio1;
     private javax.swing.JButton botonFoto;
@@ -1361,7 +1483,7 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1378,12 +1500,12 @@ public class MENU extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane16;
+    private javax.swing.JScrollPane jScrollPane17;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;

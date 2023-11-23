@@ -845,7 +845,7 @@ public class Operador
             System.err.println("La carpeta no existe o no es un directorio válido: " + rutaCarpeta);
         }
     }
-    public void mandarSolicitud(String dato, String edit)
+    public boolean mandarSolicitud(String dato, String edit)
     {
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         DateTimeFormatter forma = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -874,11 +874,11 @@ public class Operador
             listaDesAr.set(7, String.valueOf(Integer.parseInt(listaDesAr.get(7)) + 1));
             borrarContenidoArchivo(rutaDesAr);
             escribirLista(listaDesAr, rutaDesAr, strError);
-            JOptionPane.showMessageDialog(null, "Su solicitud fue enviada", "Listo", WIDTH);
+            return true;
         }
         else
         {
-            JOptionPane.showMessageDialog(null, "El usuario ya hay una solicitud pendiente entre ustedes, espera a que corresponda el respectivo usuario", "Error", WIDTH);
+            return false;
         }
     }
     public boolean comprobarSoli(List<String> lista, int inicio, String buscado)
@@ -973,5 +973,131 @@ public class Operador
                 }
             }
         }
+    }
+    public String encontrarSoli(String dato)
+    {
+        String strError = "";
+        String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+        List<String> listaAr = Obtener(rutaAr, strError);
+        for (int i = 0; i < listaAr.size(); i++) 
+        {
+            if(listaAr.get(i).split("\\|")[4].equals(dato) && listaAr.get(i).split("\\|")[5].equals("0") && listaAr.get(i).split("\\|")[6].equals("1"))
+            {
+                return listaAr.get(i);
+            }
+        }
+        return null;
+    }
+    public void aceptRech(String dato, String cambio)
+    {
+        LocalDateTime fechaHoraActual = LocalDateTime.now();
+        DateTimeFormatter forma = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String soli = encontrarSoli(dato);
+        if(soli == null)
+        {
+            JOptionPane.showMessageDialog(null, "No tiene solicitudes pendientes", "Error", WIDTH);
+        }
+        else
+        {
+            if(cambio.equals("0"))
+            {
+                String[] partes = soli.split("\\|");
+                partes[6] = cambio;
+                soli = String.join("|", partes);
+            }
+            else
+            {
+                String[] partes = soli.split("\\|");
+                partes[5] = cambio;
+                soli = String.join("|", partes);
+            }
+            String strError = "";
+            String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+            String rutaDesAr = "C:\\MEIA\\Desc_Solicitudes.txt";
+            List<String> listaAr = Obtener(rutaAr, strError);
+            List<String> listaDesAr = Obtener(rutaDesAr, strError);
+            listaAr.set((Integer.parseInt(soli.split("\\|")[0])-1), soli);
+            borrarContenidoArchivo(rutaAr);
+            escribirLista(listaAr, rutaAr, strError);
+            if(cambio.equals("0"))
+            {
+                listaDesAr.set(5, String.valueOf(Integer.parseInt(listaDesAr.get(5))-1));
+                listaDesAr.set(6, String.valueOf(Integer.parseInt(listaDesAr.get(6))+1));
+            }
+            listaDesAr.set(3, String.valueOf(fechaHoraActual.format(forma)));
+            listaDesAr.set(4, dato);
+            borrarContenidoArchivo(rutaDesAr);
+            escribirLista(listaDesAr, rutaDesAr, strError);
+            if(cambio.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "La solicitud fue rechazada", "Listo", WIDTH);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "La solicitud fue aceptada", "Listo", WIDTH);
+            }
+        }
+    }
+    public String listaDeAmigos(String dato)
+    {
+        String strError = "";
+        String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+        List<String> listaAr = Obtener(rutaAr, strError);
+        String listaAmixes = "";
+        for (int i = 0; i < listaAr.size(); i++) 
+        {
+            if(listaAr.get(i).split("\\|")[3].equals(dato) && listaAr.get(i).split("\\|")[5].equals("1") && listaAr.get(i).split("\\|")[6].equals("1"))
+            {
+                if(listaAmixes.equals(""))
+                {
+                    listaAmixes = listaAmixes + listaAr.get(i).split("\\|")[4];
+                }
+                else
+                {
+                    listaAmixes = listaAmixes + ", " + listaAr.get(i).split("\\|")[4];
+                }
+            }
+            else if(listaAr.get(i).split("\\|")[4].equals(dato) && listaAr.get(i).split("\\|")[5].equals("1") && listaAr.get(i).split("\\|")[6].equals("1"))
+            {
+                if(listaAmixes.equals(""))
+                {
+                    listaAmixes = listaAmixes + listaAr.get(i).split("\\|")[3];
+                }
+                else
+                {
+                    listaAmixes = listaAmixes + ", " + listaAr.get(i).split("\\|")[3];
+                }
+            }
+        }
+        return listaAmixes;
+    }
+    public void reorganizar(String dato)
+    {
+        String strError = "";
+        String rutaAr = "C:\\MEIA\\Solicitudes.txt";
+        String rutaDesAr = "C:\\MEIA\\Desc_Solicitudes.txt";
+        List<String> listaAr = Obtener(rutaAr, strError);
+        List<String> nuevo = new ArrayList();
+        for (int i = 0; i < listaAr.size(); i++) {
+            if(listaAr.get(i).split("\\|")[6].equals("1"))
+            {
+                String[] partes = listaAr.get(i).split("\\|");
+                partes[0] = String.valueOf(nuevo.size()+1);
+                partes[1] = "-1";
+                partes[2] = "-1";
+                nuevo.add(String.join("|", partes));
+            }
+        }
+        borrarContenidoArchivo(rutaAr);
+        for (int i = 0; i < nuevo.size(); i++) {
+            mandarSolicitud(nuevo.get(i), dato);
+        }
+        List<String> listaDesAr = Obtener(rutaDesAr, strError);
+        listaDesAr.set(5, String.valueOf(nuevo.size()));
+        listaDesAr.set(6, "0");
+        listaDesAr.set(7, String.valueOf(nuevo.size()));
+        borrarContenidoArchivo(rutaDesAr);
+        escribirLista(listaDesAr, rutaDesAr, strError);
+        JOptionPane.showMessageDialog(null, "La operación fue realizada con éxito", "Listo", WIDTH);
     }
 }
